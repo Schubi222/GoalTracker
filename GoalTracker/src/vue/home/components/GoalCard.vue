@@ -2,12 +2,14 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Progress } from '@/components/ui/progress'
 import { computed } from 'vue'
-const { goalName, description, goal, color, currentProgress } = defineProps<{
+import MultiProgressIndicator from '@/vue/home/components/MultiProgressIndicator.vue'
+const { goalName, description, goal, color, currentProgress, unit } = defineProps<{
   goalName: string
   description?: string
   goal: number
   currentProgress: number
   color?: string
+  unit?: string
 }>()
 
 const normalizedProgress = computed(() => {
@@ -22,13 +24,15 @@ const normalizedProgress = computed(() => {
       <CardDescription v-if="description">{{ description }}</CardDescription>
     </CardHeader>
     <CardContent>
-      <Progress :model-value="normalizedProgress" class="progress-bar" />
+      <Progress :model-value="normalizedProgress" class="progress-bar" :color="color" />
+      <!--      <MultiProgressIndicator
+        :goal="100"
+        :current="[5, 20, 50]"
+        :colors="['#bef264', '#0ea5e9', '#9333ea']"
+      />-->
+      <div class="numerical-progress">{{ currentProgress }}{{ unit }}/{{ goal }}{{ unit }}</div>
     </CardContent>
   </Card>
 </template>
 
-<style scoped>
-.progress-bar > :deep(.progress-indicator) {
-  background: v-bind(color);
-}
-</style>
+<style scoped></style>
