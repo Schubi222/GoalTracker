@@ -4,8 +4,8 @@ import { number } from 'typesafe-i18n/formatters'
 
 export const initFormatters: FormattersInitializer<Locales, Formatters> = (locale: Locales) => {
   const formatters: Formatters = {
-    Number: number(locale),
-    Currency: number(locale, { style: 'currency', currency: 'EUR' })
+    number: number(locale),
+    currency: number(locale, { style: 'currency', currency: 'EUR' })
   }
 
   return formatters

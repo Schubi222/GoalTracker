@@ -13,7 +13,7 @@
     "type-check": "vue-tsc --build --force",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
     "format": "prettier --write src/",
-    "make-i18n": "typesafe-i18n"
+    "typesafe-i18n": "typesafe-i18n"
   },
   "dependencies": {
     "@vueuse/core": "^11.1.0",
