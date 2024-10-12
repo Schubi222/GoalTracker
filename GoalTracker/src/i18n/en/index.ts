@@ -3,8 +3,8 @@ import type { BaseTranslation } from '../i18n-types'
 const en = {
   test: 'hello',
   format: {
-    number: '{{0:Number|number}}',
-    currency: '{{0:Number|currency}}'
+    number: '{{number:Number|number}}',
+    currency: '{{number:Number|currency}}'
   }
 } satisfies BaseTranslation
 

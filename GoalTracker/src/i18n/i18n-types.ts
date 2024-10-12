@@ -39,11 +39,11 @@ export type TranslationFunctions = {
 		/**
 		 * {{Number|number}}
 		 */
-		number: (arg0: number | string | boolean) => LocalizedString
+		number: (arg: { number: number | string | boolean }) => LocalizedString
 		/**
 		 * {{Number|currency}}
 		 */
-		currency: (arg0: number | string | boolean) => LocalizedString
+		currency: (arg: { number: number | string | boolean }) => LocalizedString
 	}
 }
 
