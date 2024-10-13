@@ -8,7 +8,7 @@ const firstProgressData = {
   goal: 1000000,
   unit: '€',
   startTimeStampUnix: 1697027563,
-  projectedCompoundEffect: 11,
+  projectedCompoundEffect: 7,
   currentProgress: [
     { value: 19336, label: 'Investments', unit: '€', color: '#4ade80' },
     { value: 2920, label: 'Bargeld', unit: '€', color: '#374151' },
@@ -46,6 +46,7 @@ function progressInYear(dif: number, progress: number) {
 }
 
 function calculateCompoundTable() {
+  const goal = firstProgressData.goal
   const year = 31556926 * 1000
   const start = DateTime.fromMillis(firstProgressData.startTimeStampUnix * 1000)
   const now = DateTime.now()
@@ -53,13 +54,19 @@ function calculateCompoundTable() {
   let totalTimeToAdd = 0
   let totalProgressAdded = totalProgress.value
   const progressYear = progressInYear(dif, totalProgress.value)
-  while (totalProgressAdded < firstProgressData.goal) {
-    console.log(firstProgressData)
+  while (totalProgressAdded < goal) {
     totalProgressAdded += progressYear
     totalTimeToAdd += year
-    if (totalProgressAdded < firstProgressData.goal) {
+    if (totalProgressAdded < goal) {
       totalProgressAdded =
         totalProgressAdded * (1 + firstProgressData.projectedCompoundEffect / 100)
+    } else {
+      const overShotBy = totalProgressAdded - goal
+      const timeOvershot = (overShotBy / progressYear) * year
+      console.log(overShotBy / progressYear)
+      console.log(((overShotBy / progressYear) * year) / 1000 / 60 / 60 / 24)
+      totalTimeToAdd -= timeOvershot
+      totalProgressAdded -= overShotBy
     }
     totalProgressAdded = Math.round(totalProgressAdded)
     compoundTable.value.push({
@@ -113,7 +120,7 @@ onMounted(() => {
       </div>
       <div class="prediction" v-if="compoundTable.length">
         <div class="row" v-for="year in compoundTable" :key="year.timestamp">
-          Year: {{ year.timestamp }} - {{ year.value }}€
+          On {{ year.timestamp }} - {{ year.value }}€
         </div>
       </div>
     </div>
@@ -122,11 +129,19 @@ onMounted(() => {
 <style scoped lang="scss">
 .prediction {
   width: 100%;
-  color: var(--Gray-950);
+  color: var(--gray-950);
   background: white;
   z-index: 1;
   padding: 10px;
 }
+.row {
+  border-bottom: 1px solid var(--gray-300);
+  padding: 3px;
+  &:last-of-type {
+    border-bottom: none;
+  }
+}
+
 .Dashboard-Wrapper {
   display: flex;
   flex-direction: column;
